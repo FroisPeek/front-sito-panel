@@ -3,12 +3,14 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { modules } from "@/constants/module"
 import { LogOut, Menu } from "lucide-react"
+import { useRouter } from "next/navigation"
 import { useHomeModel } from "./home.model"
 
 type HomeViewProps = ReturnType<typeof useHomeModel>
 
 export const HomeView = (props: HomeViewProps) => {
     const { currentDate } = props
+    const router = useRouter()
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-purple-900 via-purple-800 to-black">
@@ -60,7 +62,10 @@ export const HomeView = (props: HomeViewProps) => {
 
                                         <p className="text-gray-600 text-sm mb-4 leading-relaxed">{module.description}</p>
 
-                                        <Button className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-lg font-medium">
+                                        <Button
+                                            className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-lg font-medium"
+                                            onClick={() => router.push(module.route)}
+                                        >
                                             Acessar
                                         </Button>
                                     </CardContent>

@@ -1,46 +1,59 @@
-import { BarChart3, Globe, MapPin, MessageCircle, Navigation, Search } from "lucide-react";
+import {
+    BarChart3,
+    CreditCard,
+    PackageCheck,
+    Settings,
+    ShoppingCart,
+    Truck,
+} from "lucide-react";
 
 export const modules = [
     {
         id: 1,
-        title: "Avaliação",
-        description: "Acesse o módulo avaliação e explore seus recursos.",
-        icon: Globe,
+        title: "Pedidos",
+        description: "Visualize e gerencie os pedidos realizados na plataforma.",
+        icon: ShoppingCart,
         color: "bg-purple-100",
+        route: "/home/orders"
     },
     {
         id: 2,
-        title: "Consultas",
-        description: "Acesse o módulo consultas e explore seus recursos.",
-        icon: Search,
+        title: "Compras",
+        description: "Acompanhe suas solicitações de compra e fornecedores.",
+        icon: PackageCheck,
         color: "bg-purple-100",
+        route: "/home/purchases"
     },
     {
         id: 3,
-        title: "Mensagens",
-        description: "Acesse o módulo mensagens e explore seus recursos.",
-        icon: MessageCircle,
+        title: "Pronta Entrega",
+        description: "Gerencie os itens disponíveis para entrega imediata.",
+        icon: Truck,
         color: "bg-purple-100",
+        route: "/home/readytoship"
     },
     {
         id: 4,
-        title: "Localização",
-        description: "Acesse o módulo localização e explore seus recursos.",
-        icon: Navigation,
+        title: "Contas",
+        description: "Acesse informações financeiras, cobranças e pagamentos.",
+        icon: CreditCard,
         color: "bg-purple-100",
+        route: "/home/accounts"
     },
     {
         id: 5,
-        title: "Rastreio",
-        description: "Acesse o módulo rastreio e explore seus recursos.",
-        icon: MapPin,
+        title: "Dashboards",
+        description: "Visualize dados analíticos e relatórios em tempo real.",
+        icon: BarChart3,
         color: "bg-purple-100",
+        route: "/home/dashboards"
     },
     {
         id: 6,
-        title: "Relatórios",
-        description: "Acesse o módulo relatórios e explore seus recursos.",
-        icon: BarChart3,
+        title: "Configuração",
+        description: "Personalize preferências e parâmetros do sistema.",
+        icon: Settings,
         color: "bg-purple-100",
+        route: "/home/settings"
     },
-]
+] as const;
