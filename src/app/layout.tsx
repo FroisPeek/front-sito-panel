@@ -1,3 +1,4 @@
+import { ContextWrapper } from "@/components/global/ContextWrapper";
 import type { Metadata } from "next";
 import type React from "react";
 import { Toaster } from "sonner";
@@ -15,11 +16,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-BR">
-      <body className="antialiased">
-        {children}
-        <Toaster richColors expand />
-      </body>
-    </html>
+    <ContextWrapper>
+      <html lang="pt-BR">
+        <body className="antialiased">
+          {children}
+          <Toaster richColors expand />
+        </body>
+      </html>
+    </ContextWrapper>
   );
 }

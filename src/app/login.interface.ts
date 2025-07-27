@@ -6,9 +6,6 @@ export const loginSchema = z.object({
 })
 
 export interface iLoggedUser {
-    codigo: number;
-    nome: string;
-    email: string;
-    perfil: number;
-    coordenacao: number;
+    id: number;
+    name: string;
 }

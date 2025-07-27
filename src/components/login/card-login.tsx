@@ -44,7 +44,7 @@ export const CardLogin = ({ form, onSubmit, router }: iProps) => {
                             name="username"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel className="text-gray-700 font-medium">Email</FormLabel>
+                                    <FormLabel className="text-gray-700 font-medium">Login</FormLabel>
                                     <FormControl>
                                         <Input
                                             type="text"

@@ -1,13 +1,13 @@
 import api from "./api";
 
 export async function LoginService({
-    usuario,
-    senha,
+    username,
+    password,
 }: {
-    usuario: string;
-    senha: string;
+    username: string;
+    password: string;
 }) {
-    const data = { usuario: usuario, Senha: senha };
+    const data = { username: username, password: password };
 
     try {
         const response = await api.post(`/user/authenticate`, data, {

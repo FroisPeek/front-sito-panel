@@ -1,27 +1,19 @@
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
+import { CardHome } from "@/components/home/card-home"
+import { HeaderHome } from "@/components/home/header.home"
 import { Input } from "@/components/ui/input"
 import { modules } from "@/constants/module"
-import { LogOut, Menu } from "lucide-react"
-import { useRouter } from "next/navigation"
 import { useHomeModel } from "./home.model"
 
 type HomeViewProps = ReturnType<typeof useHomeModel>
 
 export const HomeView = (props: HomeViewProps) => {
-    const { currentDate } = props
-    const router = useRouter()
+    const { currentDate, exitFunction, router } = props
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-purple-900 via-purple-800 to-black">
-            <header className="bg-slate-800/90 backdrop-blur-sm p-4 flex items-center justify-between">
-                <Button variant="ghost" size="icon" className="text-white hover:bg-white/10">
-                    <Menu className="w-6 h-6" />
-                </Button>
-                <Button variant="ghost" size="icon" className="text-white hover:bg-white/10">
-                    <LogOut className="w-6 h-6" />
-                </Button>
-            </header>
+            <HeaderHome
+                exitFunction={exitFunction}
+            />
 
             <main className="bg-white rounded-t-3xl mt-2 min-h-[calc(100vh-80px)] p-6">
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6">
@@ -47,35 +39,22 @@ export const HomeView = (props: HomeViewProps) => {
                     </div>
 
                     <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
-                        {modules.map((module) => {
-                            const IconComponent = module.icon
+                        {modules.map((module, idx) => {
                             return (
-                                <Card key={module.id} className="border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
-                                    <CardContent className="p-2 text-center">
-                                        <div
-                                            className={`w-16 h-16 ${module.color} rounded-full flex items-center justify-center mx-auto mb-4`}
-                                        >
-                                            <IconComponent className="w-8 h-8 text-purple-600" />
-                                        </div>
-
-                                        <h3 className="text-lg font-semibold text-gray-900 mb-2">{module.title}</h3>
-
-                                        <p className="text-gray-600 text-sm mb-4 leading-relaxed">{module.description}</p>
-
-                                        <Button
-                                            className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-lg font-medium"
-                                            onClick={() => router.push(module.route)}
-                                        >
-                                            Acessar
-                                        </Button>
-                                    </CardContent>
-                                </Card>
+                                <CardHome
+                                    key={idx}
+                                    color={module.color}
+                                    description={module.description}
+                                    icon={module.icon}
+                                    id={module.id}
+                                    route={module.route}
+                                    title={module.title}
+                                />
                             )
                         })}
                     </div>
                 </div>
 
-                {/* Footer */}
                 <footer className="text-center py-6 border-t border-gray-200 mt-8">
                     <p className="text-gray-500 text-sm">©2025 Todos os direitos reservados.</p>
                 </footer>

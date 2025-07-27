@@ -1,0 +1,26 @@
+import { LogOut } from "lucide-react"
+import NavBar from "../global/navbar"
+import { Button } from "../ui/button"
+
+interface iProps {
+    exitFunction: any
+}
+
+export const HeaderHome = ({ exitFunction }: iProps) => {
+    return (
+        <header className="bg-slate-800/90 backdrop-blur-sm p-4 flex items-center justify-between">
+            <NavBar
+                exitFunction={exitFunction}
+            />
+
+            <Button
+                onClick={exitFunction}
+                variant="ghost"
+                size="icon"
+                className="text-white hover:bg-white/10"
+            >
+                <LogOut className="w-6 h-6" />
+            </Button>
+        </header>
+    )
+}

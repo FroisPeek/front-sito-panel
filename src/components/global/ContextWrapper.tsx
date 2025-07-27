@@ -2,7 +2,7 @@
 import { iLoggedUser } from "@/app/login.interface";
 import { getCookie, setCookie } from "cookies-next";
 import React, { createContext, useContext, useState } from "react";
-import ReactQueryClientProvider from "../global/ReactQueryClientProvider";
+import ReactQueryClientProvider from "./ReactQueryClientProvider";
 
 const Context = createContext<any>(null);
 
@@ -12,15 +12,11 @@ export const ContextWrapper = ({ children }: { children: React.ReactNode }) => {
 
     function setCookieLoggedUser(user: iLoggedUser) {
         setLoggedUser(user);
-        setCookie("UC", btoa(JSON.stringify(user.coordenacao)), {
+        setCookie("UN", btoa(JSON.stringify(user.name)), {
             expires: new Date(Date.now() + 1000 * 60 * 60),
             sameSite: "strict",
         });
-        setCookie("UP", btoa(JSON.stringify(user.perfil)), {
-            expires: new Date(Date.now() + 1000 * 60 * 60),
-            sameSite: "strict",
-        });
-        setCookie("UID", btoa(JSON.stringify(user.codigo)), {
+        setCookie("UID", btoa(JSON.stringify(user.id)), {
             expires: new Date(Date.now() + 1000 * 60 * 60),
             sameSite: "strict",
         });
