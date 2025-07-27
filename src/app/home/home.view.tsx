@@ -7,7 +7,7 @@ import { useHomeModel } from "./home.model"
 type HomeViewProps = ReturnType<typeof useHomeModel>
 
 export const HomeView = (props: HomeViewProps) => {
-    const { currentDate, exitFunction, router } = props
+    const { currentDate, exitFunction, router, decodedCookie } = props
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-purple-900 via-purple-800 to-black">
@@ -18,7 +18,7 @@ export const HomeView = (props: HomeViewProps) => {
             <main className="bg-white rounded-t-3xl mt-2 min-h-[calc(100vh-80px)] p-6">
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6">
                     <div>
-                        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-1">Bem-vindo, Usuário!</h1>
+                        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-1">Bem-vindo, {decodedCookie ? JSON.parse(decodedCookie) : "carregando"}!</h1>
                         <p className="text-gray-600 text-sm sm:text-base">Explore seus recursos abaixo.</p>
                     </div>
                     <div className="mt-2 sm:mt-0">

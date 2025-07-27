@@ -40,7 +40,7 @@ export function useMutateLogin() {
                 closeButton: true,
                 duration: 5000,
             });
-            setCookieLoggedUser(data)
+            setCookieLoggedUser(data.data)
             router.push("/home")
         },
         onError: (error) => {

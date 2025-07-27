@@ -1,9 +1,19 @@
 import api from "@/services/api";
-import { deleteCookie } from "cookies-next";
+import { deleteCookie, getCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export const useHomeModel = () => {
     const router = useRouter()
+    const [decodedCookie, setDecodedCookie] = useState<string>("");
+
+    useEffect(() => {
+        async function fetchCookie() {
+            const cookie = await getCookie("UN");
+            setDecodedCookie(cookie ? atob(cookie as string) : "Não informado");
+        }
+        fetchCookie();
+    }, []);
 
     const currentDate = new Date().toLocaleDateString("pt-BR", {
         weekday: "long",
@@ -25,6 +35,7 @@ export const useHomeModel = () => {
     return {
         currentDate,
         exitFunction,
-        router
+        router,
+        decodedCookie
     }
 }

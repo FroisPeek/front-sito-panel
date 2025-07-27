@@ -16,7 +16,6 @@ export const useLoginModel = () => {
     })
 
     function onSubmit(values: z.infer<typeof loginSchema>) {
-        console.log(values)
         mutateAsync(values)
     }
 
