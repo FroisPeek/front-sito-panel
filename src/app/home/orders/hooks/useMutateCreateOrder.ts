@@ -3,7 +3,7 @@ import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { CreateOrderSchema } from "../order.interface";
 
-async function CreateOrder(data: CreateOrderSchema) {
+async function CreateOrder(data: CreateOrderSchema[]) {
     const response = await api.post("/orders", data);
 
     if (!response.data.flag) {
@@ -13,9 +13,9 @@ async function CreateOrder(data: CreateOrderSchema) {
     return response.data.data
 }
 
-export default function useMutationCreateOrder(data: CreateOrderSchema) {
+export default function useMutationCreateOrder() {
     return useMutation({
-        mutationFn: () => CreateOrder(data),
+        mutationFn: (data: CreateOrderSchema[]) => CreateOrder(data),
         mutationKey: ["CreateOrder"],
         onSuccess: () => {
             toast.success("Sucesso a cadastrar pedidos")

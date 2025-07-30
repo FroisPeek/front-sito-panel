@@ -10,18 +10,15 @@ export const orderSchema = z.object({
     cost_price: z.number().min(0.1),
     sale_price: z.number().min(0.1),
     total_price: z.number().min(0.1),
-    status: z.string().min(1)
 })
 
 export type CreateOrderSchema = {
     client: string;
-    code: number;
+    code: string;
     description: string;
     size: string;
     amount: number;
     cost_price: number;
     sale_price: number;
-    status: string;
-    date_order: string;
     brand: string;
 };
