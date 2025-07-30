@@ -1,0 +1,1 @@
+export const triggerStyle = `data-[state=active]:bg-purple-600 data-[state=active]:text-white data-[state=active]:shadow-sm text-gray-700 font-medium rounded-md transition-all duration-200 h-10 flex items-center gap-2`

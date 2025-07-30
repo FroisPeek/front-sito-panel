@@ -1,3 +1,5 @@
+'use client';
+
 import { useOrdersModel } from "./orders.model";
 import { OrdersView } from "./orders.view";
 
