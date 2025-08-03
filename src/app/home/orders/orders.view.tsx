@@ -10,7 +10,7 @@ import type { useOrdersModel } from "./orders.model"
 type OrdersViewProps = ReturnType<typeof useOrdersModel>
 
 export const OrdersView = (props: OrdersViewProps) => {
-    const { onSubmit, form, addToList, valuesForm, isPending } = props
+    const { onSubmit, form, addToList, valuesForm, isPending, data, isLoading } = props
     const router = useRouter()
 
     return (
@@ -30,7 +30,7 @@ export const OrdersView = (props: OrdersViewProps) => {
                 </p>
             </div>
 
-            <div className="bg-white rounded-t-xl shadow-sm border border-gray-200 overflow-hidden">
+            <div className="bg-white rounded-t-xl shadow-sm border border-gray-200 overflow-hidden ">
                 <Tabs defaultValue="sales" className="w-full">
                     <TabsList className="grid w-full grid-cols-2 p-1 h-12">
                         <TabsTrigger
@@ -66,7 +66,10 @@ export const OrdersView = (props: OrdersViewProps) => {
                             <h2 className="text-xl font-semibold text-gray-900 mb-2">Histórico de Compras</h2>
                             <p className="text-gray-600 text-sm">Visualize e gerencie suas compras realizadas</p>
                         </div>
-                        <ShoppingView />
+                        <ShoppingView
+                            data={data}
+                            isLoading={isLoading}
+                        />
                     </TabsContent>
                 </Tabs>
             </div>

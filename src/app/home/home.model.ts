@@ -10,7 +10,7 @@ export const useHomeModel = () => {
     useEffect(() => {
         async function fetchCookie() {
             const cookie = await getCookie("UN");
-            setDecodedCookie(cookie ? atob(cookie as string) : "Não informado");
+            setDecodedCookie(cookie ? atob(cookie as string) : "0");
         }
         fetchCookie();
     }, []);
