@@ -1,16 +1,20 @@
 "use client"
 
-import type { CreateOrderSchema } from "../order.interface"
+import { Button } from "@/components/ui/button"
+import { Dispatch, SetStateAction } from "react"
+import type { Order } from "../order.interface"
 import { AccordionOrderCard } from "./accordion-order-card"
 interface iProps {
-    data: CreateOrderSchema[]
+    data: Order[]
     isLoading: boolean
-    onEditOrder?: (order: CreateOrderSchema, index: number) => void
+    onEditOrder?: (order: Order, index: number) => void
     onDeleteOrder?: (index: number) => void
+    confirmedOrder: Order[] | null
+    setConfirmedOrder: Dispatch<SetStateAction<Order[] | null>>
 }
 
-export const ShoppingView = ({ data, isLoading, onEditOrder, onDeleteOrder }: iProps) => {
-    const handleEdit = (order: CreateOrderSchema, index: number) => {
+export const ShoppingView = ({ data, isLoading, onEditOrder, onDeleteOrder, confirmedOrder, setConfirmedOrder }: iProps) => {
+    const handleEdit = (order: Order, index: number) => {
         console.log("Editando pedido:", order, "índice:", index)
         onEditOrder?.(order, index)
     }
@@ -98,6 +102,14 @@ export const ShoppingView = ({ data, isLoading, onEditOrder, onDeleteOrder }: iP
                 </div>
             </div>
 
+            <div>
+                <Button
+                    onClick={() => console.log("efetivar pedidos: ", confirmedOrder)}
+                >
+                    Efetivar pedido
+                </Button>
+            </div>
+
             <div className="space-y-3">
                 {data.map((order, index) => (
                     <AccordionOrderCard
@@ -109,6 +121,7 @@ export const ShoppingView = ({ data, isLoading, onEditOrder, onDeleteOrder }: iP
                         editButtonText="Editar Pedido"
                         deleteButtonText="Remover Pedido"
                         showButtons={true}
+                        handleSelectOrder={setConfirmedOrder}
                     />
                 ))}
             </div>

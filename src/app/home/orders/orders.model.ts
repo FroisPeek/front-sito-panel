@@ -5,12 +5,13 @@ import { useForm } from "react-hook-form"
 import z from "zod"
 import useMutationCreateOrder from "./hooks/useMutateCreateOrder"
 import useQueryGetAllOrders from "./hooks/useQueryGetAllOrders"
-import { CreateOrderSchema, orderSchema } from "./order.interface"
+import { CreateOrderSchema, Order, orderSchema } from "./order.interface"
 
 export const useOrdersModel = () => {
     const { data, isLoading } = useQueryGetAllOrders()
     const { mutateAsync, isPending } = useMutationCreateOrder()
     const [valuesForm, setValuesForm] = useState<CreateOrderSchema[]>([])
+    const [confirmedOrder, setConfirmedOrder] = useState<Order[] | null>(null)
     const queryClient = useQueryClient();
 
     const form = useForm<z.infer<typeof orderSchema>>({
@@ -52,6 +53,7 @@ export const useOrdersModel = () => {
         mutateAsync, isPending,
         valuesForm, setValuesForm,
         addToList,
-        data, isLoading
+        data, isLoading,
+        confirmedOrder, setConfirmedOrder
     }
 }
