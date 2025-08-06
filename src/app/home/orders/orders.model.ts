@@ -10,8 +10,10 @@ import { CreateOrderSchema, Order, orderSchema } from "./order.interface"
 export const useOrdersModel = () => {
     const { data, isLoading } = useQueryGetAllOrders()
     const { mutateAsync, isPending } = useMutationCreateOrder()
+
     const [valuesForm, setValuesForm] = useState<CreateOrderSchema[]>([])
     const [confirmedOrder, setConfirmedOrder] = useState<Order[] | null>(null)
+
     const queryClient = useQueryClient();
 
     const form = useForm<z.infer<typeof orderSchema>>({

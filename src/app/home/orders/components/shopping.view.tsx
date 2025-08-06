@@ -60,14 +60,14 @@ export const ShoppingView = ({ data, isLoading, onEditOrder, onDeleteOrder, conf
         <div className="space-y-4">
             <div className="bg-white rounded-lg border border-purple-200 p-4 mb-6">
                 <div className="flex items-center justify-between">
-                    <div>
+                    <div className="pr-4">
                         <h2 className="text-xl font-semibold text-purple-900">Lista de Pedidos ({data.length})</h2>
                         <p className="text-sm text-gray-600 mt-1">Gerencie seus pedidos de forma detalhada</p>
                     </div>
 
                     <div className="text-right">
                         <p className="text-sm text-gray-600">Total Geral</p>
-                        <p className="text-2xl font-bold text-purple-600">
+                        <p className="text-2xl font-bold text-purple-600 whitespace-nowrap">
                             R$ {data.reduce((total, order) => total + order.sale_price * order.amount, 0).toFixed(2)}
                         </p>
                     </div>
@@ -102,11 +102,12 @@ export const ShoppingView = ({ data, isLoading, onEditOrder, onDeleteOrder, conf
                 </div>
             </div>
 
-            <div>
+            <div className="w-full">
                 <Button
+                    className="w-full"
                     onClick={() => console.log("efetivar pedidos: ", confirmedOrder)}
                 >
-                    Efetivar pedido
+                    Efetivar pedido(s)
                 </Button>
             </div>
 
