@@ -1,6 +1,7 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
+import { Status } from "@/constants/order-status"
 import { Dispatch, SetStateAction } from "react"
 import type { Order } from "../order.interface"
 import { AccordionOrderCard } from "./accordion-order-card"
@@ -9,11 +10,12 @@ interface iProps {
     isLoading: boolean
     onEditOrder?: (order: Order, index: number) => void
     onDeleteOrder?: (index: number) => void
-    confirmedOrder: Order[] | null
-    setConfirmedOrder: Dispatch<SetStateAction<Order[] | null>>
+    confirmedOrder: number[]
+    setConfirmedOrder: Dispatch<SetStateAction<number[]>>
+    onUpdate: (orders: number[], value: number) => void
 }
 
-export const ShoppingView = ({ data, isLoading, onEditOrder, onDeleteOrder, confirmedOrder, setConfirmedOrder }: iProps) => {
+export const ShoppingView = ({ data, isLoading, onEditOrder, onDeleteOrder, confirmedOrder, setConfirmedOrder, onUpdate }: iProps) => {
     const handleEdit = (order: Order, index: number) => {
         console.log("Editando pedido:", order, "índice:", index)
         onEditOrder?.(order, index)
@@ -105,7 +107,7 @@ export const ShoppingView = ({ data, isLoading, onEditOrder, onDeleteOrder, conf
             <div className="w-full">
                 <Button
                     className="w-full"
-                    onClick={() => console.log("efetivar pedidos: ", confirmedOrder)}
+                    onClick={() => onUpdate(confirmedOrder, Status.PaidPurchase)}
                 >
                     Efetivar pedido(s)
                 </Button>

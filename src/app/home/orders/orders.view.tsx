@@ -10,7 +10,7 @@ import type { useOrdersModel } from "./orders.model"
 type OrdersViewProps = ReturnType<typeof useOrdersModel>
 
 export const OrdersView = (props: OrdersViewProps) => {
-    const { onSubmit, form, addToList, valuesForm, isPending, data, isLoading, confirmedOrder, setConfirmedOrder } = props
+    const { onSubmit, form, addToList, valuesForm, isPending, data, isLoading, confirmedOrder, setConfirmedOrder, onUpdate } = props
     const router = useRouter()
 
     return (
@@ -61,6 +61,7 @@ export const OrdersView = (props: OrdersViewProps) => {
                             isLoading={isLoading}
                             confirmedOrder={confirmedOrder}
                             setConfirmedOrder={setConfirmedOrder}
+                            onUpdate={onUpdate}
                         />
                     </TabsContent>
                     <TabsContent value="sales" className="mt-0 p-4 sm:p-6">

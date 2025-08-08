@@ -7,7 +7,7 @@ import { useHomeModel } from "./home.model"
 type HomeViewProps = ReturnType<typeof useHomeModel>
 
 export const HomeView = (props: HomeViewProps) => {
-    const { currentDate, exitFunction, router, decodedCookie } = props
+    const { currentDate, exitFunction, decodedCookie } = props
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-purple-900 via-purple-800 to-black">

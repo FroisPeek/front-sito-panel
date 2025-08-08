@@ -4,15 +4,17 @@ import { useState } from "react"
 import { useForm } from "react-hook-form"
 import z from "zod"
 import useMutationCreateOrder from "./hooks/useMutateCreateOrder"
+import useMutationUpdateStatusOrder from "./hooks/useMutateUpdateStatusOrder"
 import useQueryGetAllOrders from "./hooks/useQueryGetAllOrders"
-import { CreateOrderSchema, Order, orderSchema } from "./order.interface"
+import { CreateOrderSchema, orderSchema } from "./order.interface"
 
 export const useOrdersModel = () => {
     const { data, isLoading } = useQueryGetAllOrders()
     const { mutateAsync, isPending } = useMutationCreateOrder()
+    const { mutateAsync: updateStautsOrderAync, isPending: isPendingUpdateStatusOrder } = useMutationUpdateStatusOrder()
 
     const [valuesForm, setValuesForm] = useState<CreateOrderSchema[]>([])
-    const [confirmedOrder, setConfirmedOrder] = useState<Order[] | null>(null)
+    const [confirmedOrder, setConfirmedOrder] = useState<number[]>([])
 
     const queryClient = useQueryClient();
 
@@ -41,6 +43,15 @@ export const useOrdersModel = () => {
         })
     }
 
+    function onUpdate(orders: number[], value: number) {
+        updateStautsOrderAync({ orders: orders, value: value })
+        setConfirmedOrder([])
+        queryClient.invalidateQueries({
+            queryKey: ["getAllOrders"],
+            exact: true
+        })
+    }
+
     function addToList() {
         const data = form.getValues()
         setValuesForm(prev => [...prev, data])
@@ -56,6 +67,8 @@ export const useOrdersModel = () => {
         valuesForm, setValuesForm,
         addToList,
         data, isLoading,
-        confirmedOrder, setConfirmedOrder
+        confirmedOrder, setConfirmedOrder,
+        isPendingUpdateStatusOrder,
+        onUpdate
     }
 }

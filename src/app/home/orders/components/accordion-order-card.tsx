@@ -17,7 +17,7 @@ interface AccordionOrderCardProps {
     editButtonText?: string
     deleteButtonText?: string
     showButtons?: boolean
-    handleSelectOrder: Dispatch<SetStateAction<Order[] | null>>
+    handleSelectOrder: Dispatch<SetStateAction<number[]>>
 }
 
 export const AccordionOrderCard = ({
@@ -41,19 +41,9 @@ export const AccordionOrderCard = ({
         setIsSelected(newSelectedState)
 
         if (newSelectedState) {
-            handleSelectOrder((prev) => [...(prev ?? []), order])
+            handleSelectOrder((prev) => [...(prev ?? []), order.id])
         } else {
-            handleSelectOrder(
-                (prev) =>
-                    prev?.filter(
-                        (selectedOrder) =>
-                            !(
-                                selectedOrder.code === order.code &&
-                                selectedOrder.client === order.client &&
-                                selectedOrder.brand === order.brand
-                            ),
-                    ) ?? [],
-            )
+            handleSelectOrder((prev) => prev?.filter((selectedOrder) => !(selectedOrder === order.id)) ?? [])
         }
     }
 
