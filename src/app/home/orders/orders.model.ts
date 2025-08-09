@@ -33,8 +33,8 @@ export const useOrdersModel = () => {
         }
     })
 
-    function onSubmit() {
-        mutateAsync(valuesForm)
+    async function onSubmit() {
+        await mutateAsync(valuesForm)
         form.reset()
         setValuesForm([])
         queryClient.invalidateQueries({
@@ -43,8 +43,8 @@ export const useOrdersModel = () => {
         })
     }
 
-    function onUpdate(orders: number[], value: number) {
-        updateStautsOrderAync({ orders: orders, value: value })
+    async function onUpdate(orders: number[], value: number) {
+        await updateStautsOrderAync({ orders: orders, value: value })
         setConfirmedOrder([])
         queryClient.invalidateQueries({
             queryKey: ["getAllOrders"],

@@ -107,7 +107,7 @@ export const ShoppingView = ({ data, isLoading, onEditOrder, onDeleteOrder, conf
             <div className="w-full">
                 <Button
                     className="w-full"
-                    onClick={() => onUpdate(confirmedOrder, Status.PaidPurchase)}
+                    onClick={() => onUpdate(confirmedOrder, Status.ConfirmSale)}
                 >
                     Efetivar pedido(s)
                 </Button>

@@ -4,6 +4,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
+import { Status_Stringt } from "@/constants/order-status"
 import { Check, DollarSign, Edit, Hash, Package, Ruler, Tag, Trash2, User } from "lucide-react"
 import type React from "react"
 import { type Dispatch, type SetStateAction, useState } from "react"
@@ -72,7 +73,7 @@ export const AccordionOrderCard = ({
                                     </Badge>
                                 </div>
 
-                                <div className="flex items-center gap-2 cursor-pointer p-1" onClick={handleCheckboxChange}>
+                                {order.status != Status_Stringt.ConfirmSale ? <div className="flex items-center gap-2 cursor-pointer p-1" onClick={handleCheckboxChange}>
                                     <div
                                         className={`w-5 h-5 rounded border-2 flex items-center justify-center transition-all duration-200 ${isSelected
                                             ? "bg-purple-600 border-purple-600"
@@ -81,7 +82,7 @@ export const AccordionOrderCard = ({
                                     >
                                         {isSelected && <Check className="w-3 h-3 text-white" />}
                                     </div>
-                                </div>
+                                </div> : null}
                             </div>
                         </div>
                     </AccordionTrigger>
