@@ -135,12 +135,6 @@ export const ShoppingView = ({ data, isLoading, onEditOrder, onDeleteOrder, conf
                         <div className="text-sm text-gray-600">
                             {data.length} {data.length === 1 ? "pedido" : "pedidos"} carregado{data.length === 1 ? "" : "s"}
                         </div>
-
-                        <div className="flex gap-2">
-                            <button className="text-sm text-purple-600 hover:text-purple-700 font-medium">Exportar Lista</button>
-                            <span className="text-gray-300">•</span>
-                            <button className="text-sm text-purple-600 hover:text-purple-700 font-medium">Limpar Tudo</button>
-                        </div>
                     </div>
                 </div>
             )}

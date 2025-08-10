@@ -67,6 +67,8 @@ export const AccordionOrderCard = ({
 
                             <div className="flex items-center gap-4">
                                 <div className="text-right">
+                                    {order.purchase_order != null ? <p>{new Date(order.purchase_order).toLocaleDateString()}</p> : null}
+                                    {order.purchase_order != null ? <p>{new Date(order.purchase_order).toLocaleTimeString()}</p> : null}
                                     <p className="text-sm font-bold text-black">R$ {totalValue.toFixed(2)}</p>
                                     <Badge variant="outline" className="text-xs">
                                         {order.amount} {order.amount === 1 ? "item" : "itens"}

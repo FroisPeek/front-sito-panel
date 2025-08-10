@@ -26,6 +26,7 @@ export type Order = {
     date_order: string;
     tenant_id: number;
     brand: string;
+    purchase_order: string;
 };
 
 export type CreateOrderSchema = {
