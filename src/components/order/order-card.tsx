@@ -1,7 +1,7 @@
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { DollarSign, Hash, Package, Ruler, Tag, User } from "lucide-react"
-import type { CreateOrderSchema } from "../order.interface"
+import type { CreateOrderSchema } from "../../app/home/orders/order.interface"
 
 interface OrderCardProps {
     order: CreateOrderSchema

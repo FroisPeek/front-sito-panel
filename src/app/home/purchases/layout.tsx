@@ -26,7 +26,7 @@ const OrdersLayout = ({ children }: OrdersLayoutProps) => {
                 </div>
             </div>
 
-            <div className="bg-white h-full max-h-screen rounded-t-xl shadow-sm border border-gray-200 overflow-hidden">
+            <div className="bg-white rounded-t-xl shadow-sm border border-gray-200 overflow-hidden">
                 <main>{children}</main>
             </div>
         </div>

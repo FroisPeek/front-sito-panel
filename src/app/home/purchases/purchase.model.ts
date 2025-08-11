@@ -1,10 +1,14 @@
+import { Status } from "@/constants/order-status"
+import { useState } from "react"
 import useQueryGetOrdersByStatus from "./hooks/useQueryGetOrdersByStatus"
 
 export const usePurchaseModel = () => {
-    const status = 4
-    const { data, isLoading } = useQueryGetOrdersByStatus(status)
+    const { data, isLoading } = useQueryGetOrdersByStatus(Status.ConfirmSale)
+
+    const [selectedOrders, setSelectedOrders] = useState<number[]>([])
 
     return {
-        data, isLoading
+        data, isLoading,
+        setSelectedOrders, selectedOrders
     }
 }

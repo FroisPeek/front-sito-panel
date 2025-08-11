@@ -3,8 +3,8 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { triggerStyle } from "@/constants/style/trigger.style"
 import { Package, ShoppingCart } from "lucide-react"
-import { SalesForm } from "./components/sales.form"
-import { ShoppingView } from "./components/shopping.view"
+import { SalesForm } from "../../../components/order/sales.form"
+import { ShoppingView } from "../../../components/order/shopping.view"
 import type { useOrdersModel } from "./orders.model"
 
 type OrdersViewProps = ReturnType<typeof useOrdersModel>

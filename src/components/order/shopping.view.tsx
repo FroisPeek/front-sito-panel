@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button"
 import { Status } from "@/constants/order-status"
 import { Dispatch, SetStateAction } from "react"
-import type { Order } from "../order.interface"
+import type { Order } from "../../app/home/orders/order.interface"
 import { AccordionOrderCard } from "./accordion-order-card"
 interface iProps {
     data: Order[]

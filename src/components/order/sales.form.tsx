@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import type { UseFormReturn } from "react-hook-form"
 import type z from "zod"
-import type { CreateOrderSchema, orderSchema } from "../order.interface"
+import type { CreateOrderSchema, orderSchema } from "../../app/home/orders/order.interface"
 import { OrderCard } from "./order-card"
 
 interface iProps {

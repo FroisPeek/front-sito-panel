@@ -8,7 +8,7 @@ import { Status_Stringt } from "@/constants/order-status"
 import { Check, DollarSign, Edit, Hash, Package, Ruler, Tag, Trash2, User } from "lucide-react"
 import type React from "react"
 import { type Dispatch, type SetStateAction, useState } from "react"
-import type { Order } from "../order.interface"
+import type { Order } from "../../app/home/orders/order.interface"
 
 interface AccordionOrderCardProps {
     order: Order
