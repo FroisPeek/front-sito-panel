@@ -26,7 +26,7 @@ const OrdersLayout = ({ children }: OrdersLayoutProps) => {
                                     <ShoppingBag className="w-4 h-4 text-purple-600" />
                                 </div>
                                 <div>
-                                    <h1 className="text-xl font-semibold text-gray-900">Gerência de pedidos</h1>
+                                    <h1 className="text-xl font-semibold text-gray-900">Compras</h1>
                                     <p className="text-sm text-gray-500">Gerencie seus pedidos</p>
                                 </div>
                             </div>

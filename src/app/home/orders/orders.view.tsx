@@ -26,7 +26,7 @@ export const OrdersView = (props: OrdersViewProps) => {
     return (
         <div>
             <Tabs defaultValue="shopping" className="w-full">
-                <TabsList className="grid w-full grid-cols-2 p-1 h-12">
+                <TabsList className="grid w-full grid-cols-2 p-1 h-12 bg-white">
                     <TabsTrigger value="shopping" className={triggerStyle}>
                         <ShoppingCart className="w-4 h-4" />
                         <span className="hidden sm:inline">Compras</span>

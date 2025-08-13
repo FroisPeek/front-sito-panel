@@ -1,10 +1,9 @@
 import {
     BarChart3,
     CreditCard,
-    PackageCheck,
     Settings,
     ShoppingCart,
-    Truck,
+    Truck
 } from "lucide-react";
 
 export const modules = [
@@ -16,13 +15,21 @@ export const modules = [
         color: "bg-purple-100",
         route: "/home/orders"
     },
+    // {
+    //     id: 2,
+    //     title: "Compras",
+    //     description: "Acompanhe suas solicitações de compra e fornecedores.",
+    //     icon: PackageCheck,
+    //     color: "bg-purple-100",
+    //     route: "/home/purchases"
+    // },
     {
         id: 2,
-        title: "Compras",
-        description: "Acompanhe suas solicitações de compra e fornecedores.",
-        icon: PackageCheck,
+        title: "Contas",
+        description: "Acesse informações financeiras, cobranças e pagamentos.",
+        icon: CreditCard,
         color: "bg-purple-100",
-        route: "/home/purchases"
+        route: "/home/accounts"
     },
     {
         id: 3,
@@ -34,14 +41,6 @@ export const modules = [
     },
     {
         id: 4,
-        title: "Contas",
-        description: "Acesse informações financeiras, cobranças e pagamentos.",
-        icon: CreditCard,
-        color: "bg-purple-100",
-        route: "/home/accounts"
-    },
-    {
-        id: 5,
         title: "Dashboards",
         description: "Visualize dados analíticos e relatórios em tempo real.",
         icon: BarChart3,
@@ -49,7 +48,7 @@ export const modules = [
         route: "/home/dashboards"
     },
     {
-        id: 6,
+        id: 5,
         title: "Configuração",
         description: "Personalize preferências e parâmetros do sistema.",
         icon: Settings,

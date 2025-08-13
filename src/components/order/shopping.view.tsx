@@ -16,16 +16,6 @@ interface iProps {
 }
 
 export const ShoppingView = ({ data, isLoading, onEditOrder, onDeleteOrder, confirmedOrder, setConfirmedOrder, onUpdate }: iProps) => {
-    const handleEdit = (order: Order, index: number) => {
-        console.log("Editando pedido:", order, "índice:", index)
-        onEditOrder?.(order, index)
-    }
-
-    const handleDelete = (index: number) => {
-        console.log("Removendo pedido no índice:", index)
-        onDeleteOrder?.(index)
-    }
-
     if (isLoading) {
         return (
             <div className="space-y-4">
@@ -119,11 +109,6 @@ export const ShoppingView = ({ data, isLoading, onEditOrder, onDeleteOrder, conf
                         key={`order-${index}-${order.code}`}
                         order={order}
                         index={index}
-                        onEdit={handleEdit}
-                        onDelete={handleDelete}
-                        editButtonText="Editar Pedido"
-                        deleteButtonText="Remover Pedido"
-                        showButtons={true}
                         handleSelectOrder={setConfirmedOrder}
                     />
                 ))}

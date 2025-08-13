@@ -23,10 +23,11 @@ export type Order = {
     sale_price: number;
     total_price: number;
     status: string;
-    date_order: string;
+    date_creation_order: string;
     tenant_id: number;
     brand: string;
-    purchase_order: string;
+    date_order?: string;
+    date_purchase_order?: string;
 };
 
 export type CreateOrderSchema = {

@@ -6,7 +6,7 @@ export enum Status {
     PaidPurchase = 5
 }
 
-export enum Status_Stringt {
+export enum Status_String {
     PendingPurchase = "Compra Pendente",
     SaleToRecive = "Venda a Receber",
     ReadyForDelivery = "Pronta a Entrega",
