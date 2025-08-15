@@ -6,7 +6,7 @@ import { Order } from "../orders/order.interface"
 import useQueryGetOrdersByStatus from "./hooks/useQueryGetOrdersByStatus"
 
 export const useAccountsModel = () => {
-    const { data, isLoading } = useQueryGetOrdersByStatus(Status.ConfirmSale)
+    const { data, isLoading } = useQueryGetOrdersByStatus(Status.MoreThenOne)
     const { mutateAsync } = useMutationUpdateStatusOrder();
 
     const [selectedOrders, setSelectedOrders] = useState<number[]>([])

@@ -26,8 +26,8 @@ export type Order = {
     date_creation_order: string;
     tenant_id: number;
     brand: string;
-    date_order?: string;
-    date_purchase_order?: string;
+    date_order?: string | undefined;
+    date_purchase_order?: string | undefined;
 };
 
 export type CreateOrderSchema = {

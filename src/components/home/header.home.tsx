@@ -8,7 +8,7 @@ interface iProps {
 
 export const HeaderHome = ({ exitFunction }: iProps) => {
     return (
-        <header className="bg-slate-800/90 backdrop-blur-sm p-4 flex items-center justify-between">
+        <header className="bg-purple-900 backdrop-blur-sm p-4 flex items-center justify-between w-full">
             <NavBar
                 exitFunction={exitFunction}
             />

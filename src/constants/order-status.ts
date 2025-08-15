@@ -3,7 +3,8 @@ export enum Status {
     SaleToRecive = 2,
     ReadyForDelivery = 3,
     ConfirmSale = 4,
-    PaidPurchase = 5
+    PaidPurchase = 5,
+    MoreThenOne = 6,
 }
 
 export enum Status_String {

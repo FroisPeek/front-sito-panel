@@ -1,5 +1,4 @@
 import { CardHome } from "@/components/home/card-home"
-import { HeaderHome } from "@/components/home/header.home"
 import { Input } from "@/components/ui/input"
 import { modules } from "@/constants/module"
 import { useHomeModel } from "./home.model"
@@ -10,11 +9,7 @@ export const HomeView = (props: HomeViewProps) => {
     const { currentDate, exitFunction, decodedCookie } = props
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-purple-900 via-purple-800 to-black">
-            <HeaderHome
-                exitFunction={exitFunction}
-            />
-
+        <div className="min-h-screen">
             <main className="bg-white rounded-t-3xl mt-2 min-h-[calc(100vh-80px)] p-6">
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6">
                     <div>

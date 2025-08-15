@@ -8,7 +8,8 @@ export const formatCurrency = (value: number) => {
     }).format(value)
 }
 
-export const formatDate = (dateString: string) => {
+export const formatDate = (dateString: string | undefined) => {
+    if (dateString == undefined) return ""
     return new Date(dateString).toLocaleDateString("pt-BR", {
         day: "2-digit",
         month: "2-digit",
