@@ -17,19 +17,6 @@ export const formatDate = (dateString: string | undefined) => {
     })
 }
 
-export const getStatusColor = (status: string): string => {
-    const statusColors: Record<Status_String, string> = {
-        [Status_String.PendingPurchase]: "bg-yellow-100 text-yellow-800 border-yellow-200",
-        [Status_String.SaleToRecive]: "bg-blue-100 text-blue-800 border-blue-200",
-        [Status_String.ReadyForDelivery]: "bg-purple-100 text-purple-800 border-purple-200",
-        [Status_String.ConfirmSale]: "bg-green-100 text-green-800 border-green-200",
-        [Status_String.PaidPurchase]: "bg-green-200 text-green-900 border-green-300",
-    };
-
-    const matchedKey = Object.values(Status_String).find(v => v === status);
-    return matchedKey ? statusColors[matchedKey] : "bg-gray-100 text-gray-800 border-gray-200";
-};
-
 export const returnDateInStatus = (order: Order) => {
     if (!order) return null;
 

@@ -10,6 +10,7 @@ export const useAccountsModel = () => {
     const { mutateAsync } = useMutationUpdateStatusOrder();
 
     const [selectedOrders, setSelectedOrders] = useState<number[]>([])
+    const [firstSelectedOrder, setFirstSelectedOrder] = useState<Order | null>(null)
 
     const queryClient = useQueryClient();
 
@@ -28,10 +29,39 @@ export const useAccountsModel = () => {
         })
     }
 
+    const handleCardClick = (isSelected: boolean, order: Order) => {
+        setSelectedOrders((prev: number[]) => {
+            if (isSelected)
+                return prev.filter((id) => id !== order.id)
+
+            else {
+                if (prev.length === 0)
+                    return [...prev, order.id]
+
+                // Se já há cards selecionados, verifica se o status é compatível
+                const firstSelectedOrder = data?.find((o: Order) => o.id === prev[0])
+                setFirstSelectedOrder(firstSelectedOrder)
+                if (firstSelectedOrder && firstSelectedOrder.status === order.status) return [...prev, order.id]
+
+                return prev
+            }
+        })
+    }
+
+    const canSelectCard = (order: Order): boolean => {
+        if (selectedOrders.length === 0) return true
+
+        const firstSelectedOrder = data?.find((o: Order) => o.id === selectedOrders[0])
+        return firstSelectedOrder ? firstSelectedOrder.status === order.status : false
+    }
+
     return {
         data, isLoading,
         setSelectedOrders, selectedOrders,
         totalValueToPay,
-        onUpdate
+        onUpdate,
+        handleCardClick,
+        canSelectCard,
+        firstSelectedOrder
     }
 }

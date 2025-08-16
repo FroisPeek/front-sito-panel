@@ -13,9 +13,11 @@ interface iProps {
     confirmedOrder: number[]
     setConfirmedOrder: Dispatch<SetStateAction<number[]>>
     onUpdate: (orders: number[], value: number) => void
+    isSelected: boolean
+    setIsSelected: Dispatch<SetStateAction<boolean>>
 }
 
-export const ShoppingView = ({ data, isLoading, onEditOrder, onDeleteOrder, confirmedOrder, setConfirmedOrder, onUpdate }: iProps) => {
+export const ShoppingView = ({ data, isLoading, isSelected, setIsSelected, confirmedOrder, setConfirmedOrder, onUpdate }: iProps) => {
     if (isLoading) {
         return (
             <div className="space-y-4">
@@ -106,6 +108,8 @@ export const ShoppingView = ({ data, isLoading, onEditOrder, onDeleteOrder, conf
             <div className="space-y-3">
                 {data.map((order, index) => (
                     <AccordionOrderCard
+                        isSelected={isSelected}
+                        setIsSelected={setIsSelected}
                         key={`order-${index}-${order.code}`}
                         order={order}
                         index={index}

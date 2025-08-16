@@ -15,6 +15,7 @@ export const useOrdersModel = () => {
 
     const [valuesForm, setValuesForm] = useState<CreateOrderSchema[]>([])
     const [confirmedOrder, setConfirmedOrder] = useState<number[]>([])
+    const [isSelected, setIsSelected] = useState(false)
 
     const queryClient = useQueryClient();
 
@@ -46,6 +47,7 @@ export const useOrdersModel = () => {
     async function onUpdate(orders: number[], value: number) {
         await updateStautsOrderAync({ orders: orders, value: value })
         setConfirmedOrder([])
+        setIsSelected(false)
         queryClient.invalidateQueries({
             queryKey: ["getAllOrders"],
             exact: true
@@ -69,6 +71,7 @@ export const useOrdersModel = () => {
         data, isLoading,
         confirmedOrder, setConfirmedOrder,
         isPendingUpdateStatusOrder,
-        onUpdate
+        onUpdate,
+        isSelected, setIsSelected
     }
 }

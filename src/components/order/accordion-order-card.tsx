@@ -6,20 +6,23 @@ import { Status_String } from "@/constants/order-status"
 import { returnDateInStatus } from "@/functions/format-functions"
 import { Check, DollarSign, Hash, Package, Ruler, Tag, User } from "lucide-react"
 import type React from "react"
-import { type Dispatch, type SetStateAction, useState } from "react"
+import { type Dispatch, type SetStateAction } from "react"
 
 interface AccordionOrderCardProps {
     order: Order
     index: number
     handleSelectOrder: Dispatch<SetStateAction<number[]>>
+    setIsSelected: Dispatch<SetStateAction<boolean>>
+    isSelected: boolean
 }
 
 export const AccordionOrderCard = ({
     order,
     index,
     handleSelectOrder,
+    setIsSelected,
+    isSelected
 }: AccordionOrderCardProps) => {
-    const [isSelected, setIsSelected] = useState(false)
     const profit = order.sale_price - order.cost_price
     const profitMargin = ((profit / order.sale_price) * 100).toFixed(1)
     const totalValue = order.sale_price * order.amount
@@ -65,7 +68,7 @@ export const AccordionOrderCard = ({
                                         Pedido #{index + 1}
                                     </h3>
                                     <p className={`text-xs sm:text-sm truncate ${isSelected ? "text-white/80" : "text-gray-600"}`}>
-                                        {order.client}
+                                        {order.client_infos.client_name}
                                     </p>
                                     <Badge variant={isSelected ? "secondary" : "outline"} className="w-fit text-xs">
                                         {order.status}
@@ -110,7 +113,7 @@ export const AccordionOrderCard = ({
 
                                 <div className="grid grid-cols-2 sm:grid-cols-2 gap-3 sm:gap-4">
                                     {[
-                                        { icon: User, label: "Cliente", value: order.client },
+                                        { icon: User, label: "Cliente", value: order.client_infos.client_name },
                                         { icon: Tag, label: "Marca", value: order.brand },
                                         { icon: Hash, label: "Código", value: order.code },
                                         { icon: Ruler, label: "Tamanho", value: order.size },

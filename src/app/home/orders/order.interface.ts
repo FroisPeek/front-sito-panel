@@ -14,7 +14,6 @@ export const orderSchema = z.object({
 
 export type Order = {
     id: number;
-    client: string;
     code: number;
     description?: string;
     size: string;
@@ -28,6 +27,11 @@ export type Order = {
     brand: string;
     date_order?: string | undefined;
     date_purchase_order?: string | undefined;
+    status_conference: string | undefined;
+    client_infos: {
+        client_id: number;
+        client_name: string;
+    }
 };
 
 export type CreateOrderSchema = {

@@ -1,7 +1,7 @@
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Skeleton } from "@/components/ui/skeleton"
-import { Status } from "@/constants/order-status"
+import { Status, Status_String } from "@/constants/order-status"
 import { CheckCircle2, Package, Trash2 } from "lucide-react"
 import { PurchaseCard } from "../../../components/accounts/accounts-card"
 import { Order } from "../orders/order.interface"
@@ -10,7 +10,7 @@ import { useAccountsModel } from "./accounts.model"
 type AccountsViewProps = ReturnType<typeof useAccountsModel>
 
 export const AccountsView = (props: AccountsViewProps) => {
-    const { data, isLoading, selectedOrders, setSelectedOrders, totalValueToPay, onUpdate } = props
+    const { data, isLoading, selectedOrders, setSelectedOrders, totalValueToPay, onUpdate, handleCardClick, canSelectCard, firstSelectedOrder } = props
 
     if (isLoading) {
         return (
@@ -98,10 +98,14 @@ export const AccountsView = (props: AccountsViewProps) => {
                                     variant="outline"
                                     size="sm"
                                     className="gap-2 w-full sm:w-auto"
-                                    onClick={() => onUpdate(selectedOrders, Status.PaidPurchase)}
+                                    onClick={() => {
+                                        firstSelectedOrder?.status === Status_String.ConfirmSale ?
+                                            onUpdate(selectedOrders, Status.PaidPurchase) :
+                                            onUpdate(selectedOrders, Status.Checked)
+                                    }}
                                 >
                                     <CheckCircle2 className="w-4 h-4" />
-                                    Efetivar compra
+                                    {firstSelectedOrder?.status === Status_String.ConfirmSale ? `Efetivar compra` : `Conferir comprar`}
                                 </Button>
                                 <Button
                                     size="sm"
@@ -124,10 +128,12 @@ export const AccountsView = (props: AccountsViewProps) => {
                         className="transform transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
                     >
                         <PurchaseCard
+                            idx={index + 1}
                             key={order.id}
                             order={order}
-                            setSelectOrder={setSelectedOrders}
                             selectedOrders={selectedOrders}
+                            handleCardClick={handleCardClick}
+                            canSelectCard={canSelectCard}
                         />
                     </div>
                 ))}
