@@ -3,10 +3,12 @@ import { useQueryClient } from "@tanstack/react-query"
 import { useState } from "react"
 import useMutationUpdateStatusOrder from "../orders/hooks/useMutateUpdateStatusOrder"
 import { Order } from "../orders/order.interface"
+import useQueryGetClients from "./hooks/useQueryGetClients"
 import useQueryGetOrdersByStatus from "./hooks/useQueryGetOrdersByStatus"
 
 export const useAccountsModel = () => {
     const { data, isLoading } = useQueryGetOrdersByStatus(Status.MoreThenOne)
+    const { data: clients, isLoading: isLoadingClients } = useQueryGetClients()
     const { mutateAsync } = useMutationUpdateStatusOrder();
 
     const [selectedOrders, setSelectedOrders] = useState<number[]>([])
@@ -30,9 +32,11 @@ export const useAccountsModel = () => {
     }
 
     const handleCardClick = (isSelected: boolean, order: Order) => {
+        setFirstSelectedOrder(order)
         setSelectedOrders((prev: number[]) => {
-            if (isSelected)
+            if (isSelected) {
                 return prev.filter((id) => id !== order.id)
+            }
 
             else {
                 if (prev.length === 0)
@@ -41,7 +45,9 @@ export const useAccountsModel = () => {
                 // Se já há cards selecionados, verifica se o status é compatível
                 const firstSelectedOrder = data?.find((o: Order) => o.id === prev[0])
                 setFirstSelectedOrder(firstSelectedOrder)
-                if (firstSelectedOrder && firstSelectedOrder.status === order.status) return [...prev, order.id]
+                if (firstSelectedOrder && firstSelectedOrder.status === order.status) {
+                    return [...prev, order.id]
+                }
 
                 return prev
             }
@@ -62,6 +68,7 @@ export const useAccountsModel = () => {
         onUpdate,
         handleCardClick,
         canSelectCard,
-        firstSelectedOrder
+        firstSelectedOrder,
+        clients, isLoadingClients
     }
 }

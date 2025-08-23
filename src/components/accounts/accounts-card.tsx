@@ -57,7 +57,15 @@ export const PurchaseCard = ({ order, selectedOrders, handleCardClick, canSelect
                         {isPaidPurchase && <Badge className="bg-rose-500 text-white text-xs">PAGO</Badge>}
                     </div>
                     <div className="flex items-center gap-2 mt-1">
-                        <Badge className={`${getStatusColor(order.status)} font-medium`}>{order.status} {order.status_conference ? `/${order.status_conference}` : null}</Badge>
+                        <Badge className={`${getStatusColor(order.status)} font-medium`}>{order.status} </Badge>
+                        {order.status_conference ? (
+                            <Badge
+                                className={`font-medium ${order.status_conference === Status_String.ToCheck ? "bg-black" : "bg-fuchsia-600"}`}
+                            >
+                                {`${order.status_conference}`}
+                            </Badge>
+                        ) : null}
+                        {order.date_conference ? <Badge className={` font-medium`}>{new Date(order.date_conference).toLocaleDateString()} </Badge> : null}
                         {isSelected && (
                             <div className="bg-white rounded-full p-1">
                                 <Check className={`w-4 h-4 ${isPaidPurchase ? "text-rose-600" : "text-purple-600"}`} />

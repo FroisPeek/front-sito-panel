@@ -28,6 +28,7 @@ export type Order = {
     date_order?: string | undefined;
     date_purchase_order?: string | undefined;
     status_conference: string | undefined;
+    date_conference: string | undefined;
     client_infos: {
         client_id: number;
         client_name: string;

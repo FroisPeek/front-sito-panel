@@ -114,6 +114,7 @@ export const ShoppingView = ({ data, isLoading, isSelected, setIsSelected, confi
                         order={order}
                         index={index}
                         handleSelectOrder={setConfirmedOrder}
+                        onUpdate={onUpdate}
                     />
                 ))}
             </div>

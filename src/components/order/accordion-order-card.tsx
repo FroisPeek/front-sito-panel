@@ -7,6 +7,7 @@ import { returnDateInStatus } from "@/functions/format-functions"
 import { Check, DollarSign, Hash, Package, Ruler, Tag, User } from "lucide-react"
 import type React from "react"
 import { type Dispatch, type SetStateAction } from "react"
+import { ButtonReadyToSend } from "./button-ready-to-send"
 
 interface AccordionOrderCardProps {
     order: Order
@@ -14,6 +15,7 @@ interface AccordionOrderCardProps {
     handleSelectOrder: Dispatch<SetStateAction<number[]>>
     setIsSelected: Dispatch<SetStateAction<boolean>>
     isSelected: boolean
+    onUpdate: (orders: number[], value: number) => void
 }
 
 export const AccordionOrderCard = ({
@@ -21,7 +23,8 @@ export const AccordionOrderCard = ({
     index,
     handleSelectOrder,
     setIsSelected,
-    isSelected
+    isSelected,
+    onUpdate
 }: AccordionOrderCardProps) => {
     const profit = order.sale_price - order.cost_price
     const profitMargin = ((profit / order.sale_price) * 100).toFixed(1)
@@ -91,7 +94,7 @@ export const AccordionOrderCard = ({
                         </div>
                     </AccordionTrigger>
 
-                    <AccordionContent className="px-4 sm:px-6 pb-4 sm:pb-6">
+                    <AccordionContent className="px-4 sm:px-6 pb-1 sm:pb-1">
                         <div className="space-y-4 sm:space-y-6 pt-4">
                             <div className="block sm:hidden">
                                 <div className={`text-s, ${isSelected ? "text-white/80" : "text-black"}`}>
@@ -207,7 +210,15 @@ export const AccordionOrderCard = ({
                                         <span>Margem: {profitMargin}%</span>
                                     </div>
                                 </div>
+
                             </div>
+                            {
+                                order.status === Status_String.PaidPurchase &&
+                                <ButtonReadyToSend
+                                    order={order}
+                                    onUpdate={onUpdate}
+                                />
+                            }
                         </div>
                     </AccordionContent>
                 </AccordionItem>
