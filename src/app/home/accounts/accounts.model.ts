@@ -2,9 +2,9 @@ import { Status } from "@/constants/order-status"
 import { useQueryClient } from "@tanstack/react-query"
 import { useState } from "react"
 import useMutationUpdateStatusOrder from "../orders/hooks/useMutateUpdateStatusOrder"
+import useQueryGetOrdersByStatus from "../orders/hooks/useQueryGetOrdersByStatus"
 import { Order } from "../orders/order.interface"
 import useQueryGetClients from "./hooks/useQueryGetClients"
-import useQueryGetOrdersByStatus from "./hooks/useQueryGetOrdersByStatus"
 
 export const useAccountsModel = () => {
     const { data, isLoading } = useQueryGetOrdersByStatus(Status.MoreThenOne)

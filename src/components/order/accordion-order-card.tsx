@@ -68,7 +68,7 @@ export const AccordionOrderCard = ({
 
                                 <div className="flex flex-col text-left gap-1 min-w-0 flex-1">
                                     <h3 className={`text-sm sm:text-base font-bold truncate ${isSelected ? "text-white" : "text-black"}`}>
-                                        Pedido #{index + 1}
+                                        Pedido {order.id}
                                     </h3>
                                     <p className={`text-xs sm:text-sm truncate ${isSelected ? "text-white/80" : "text-gray-600"}`}>
                                         {order.client_infos.client_name}

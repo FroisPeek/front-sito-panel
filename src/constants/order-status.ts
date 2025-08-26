@@ -6,7 +6,7 @@ export enum Status {
     PaidPurchase = 5,
     MoreThenOne = 6,
     ToCheck = 7,
-    Checked = 8
+    Checked = 8,
 }
 
 export enum Status_String {
