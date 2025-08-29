@@ -21,7 +21,6 @@ export const OrdersView = (props: OrdersViewProps) => {
         confirmedOrder,
         setConfirmedOrder,
         onUpdate,
-        isSelected, setIsSelected
     } = props
 
     return (
@@ -46,8 +45,6 @@ export const OrdersView = (props: OrdersViewProps) => {
                         <p className="text-gray-600 text-sm">Visualize e gerencie suas compras realizadas</p>
                     </div>
                     <ShoppingView
-                        isSelected={isSelected}
-                        setIsSelected={setIsSelected}
                         data={data}
                         isLoading={isLoading}
                         confirmedOrder={confirmedOrder}

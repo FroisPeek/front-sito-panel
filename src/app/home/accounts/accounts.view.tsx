@@ -1,7 +1,7 @@
 import { AccountsList } from "@/components/accounts/accounts-list"
 import { AccoutnsReceive } from "@/components/accounts/accounts-receive"
+import { IsLoadingCard } from "@/components/global/isloading-card"
 import { NotFoundOrder } from "@/components/global/not-found-order"
-import { Skeleton } from "@/components/ui/skeleton"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { triggerStyle } from "@/constants/style/trigger.style"
 import { Package, ShoppingCart } from "lucide-react"
@@ -12,20 +12,7 @@ type AccountsViewProps = ReturnType<typeof useAccountsModel>
 export const AccountsView = (props: AccountsViewProps) => {
     const { data, isLoading, selectedOrders, setSelectedOrders, totalValueToPay, onUpdate, handleCardClick, canSelectCard, firstSelectedOrder, clients, isLoadingClients } = props
 
-    if (isLoading) {
-        return (
-            <div className="flex flex-col gap-4 p-4">
-                <Skeleton className="h-[125px] w-full rounded-xl" />
-                <Skeleton className="h-[125px] w-full rounded-xl" />
-                <Skeleton className="h-[125px] w-full rounded-xl" />
-                <Skeleton className="h-[125px] w-full rounded-xl" />
-                <Skeleton className="h-[125px] w-full rounded-xl" />
-                <Skeleton className="h-[125px] w-full rounded-xl" />
-                <Skeleton className="h-[125px] w-full rounded-xl" />
-                <Skeleton className="h-[125px] w-full rounded-xl" />
-            </div>
-        )
-    }
+    if (isLoading) return <IsLoadingCard />
 
     if (data.length === 0) return <NotFoundOrder />
 
@@ -35,13 +22,13 @@ export const AccountsView = (props: AccountsViewProps) => {
                 <TabsList className="grid w-full grid-cols-2 p-1 h-12 bg-white">
                     <TabsTrigger value="accounts-list" className={triggerStyle}>
                         <ShoppingCart className="w-4 h-4" />
-                        <span className="hidden sm:inline">Compras a Pagar</span>
-                        <span className="sm:hidden">Compras a Pagar</span>
+                        <span className="hidden sm:inline">Contas a Pagar</span>
+                        <span className="sm:hidden">Contas a Pagar</span>
                     </TabsTrigger>
                     <TabsTrigger value="accounts-receive" className={triggerStyle}>
                         <Package className="w-4 h-4" />
-                        <span className="hidden sm:inline">Compras a Receber</span>
-                        <span className="sm:hidden">Compras a Receber</span>
+                        <span className="hidden sm:inline">Contas a Receber</span>
+                        <span className="sm:hidden">Contas a Receber</span>
                     </TabsTrigger>
                 </TabsList>
 

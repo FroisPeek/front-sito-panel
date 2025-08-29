@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button"
 import { Status } from "@/constants/order-status"
-import { Dispatch, SetStateAction } from "react"
+import type { Dispatch, SetStateAction } from "react"
 import type { Order } from "../../app/home/orders/order.interface"
 import { IsLoadingCard } from "../global/isloading-card"
 import { NotFoundOrder } from "../global/not-found-order"
@@ -16,11 +16,9 @@ interface iProps {
     confirmedOrder: number[]
     setConfirmedOrder: Dispatch<SetStateAction<number[]>>
     onUpdate: (orders: number[], value: number) => void
-    isSelected: boolean
-    setIsSelected: Dispatch<SetStateAction<boolean>>
 }
 
-export const ShoppingView = ({ data, isLoading, isSelected, setIsSelected, confirmedOrder, setConfirmedOrder, onUpdate }: iProps) => {
+export const ShoppingView = ({ data, isLoading, confirmedOrder, setConfirmedOrder, onUpdate }: iProps) => {
     if (isLoading) return <IsLoadingCard />
 
     if (data.length === 0) return <NotFoundOrder />
@@ -72,10 +70,7 @@ export const ShoppingView = ({ data, isLoading, isSelected, setIsSelected, confi
             </div>
 
             <div className="w-full">
-                <Button
-                    className="w-full"
-                    onClick={() => onUpdate(confirmedOrder, Status.ConfirmSale)}
-                >
+                <Button className="w-full" onClick={() => onUpdate(confirmedOrder, Status.ConfirmSale)}>
                     Efetivar pedido(s)
                 </Button>
             </div>
@@ -83,12 +78,11 @@ export const ShoppingView = ({ data, isLoading, isSelected, setIsSelected, confi
             <div className="space-y-3">
                 {data.map((order, index) => (
                     <AccordionOrderCard
-                        isSelected={isSelected}
-                        setIsSelected={setIsSelected}
                         key={`order-${index}-${order.code}`}
                         order={order}
                         index={index}
                         handleSelectOrder={setConfirmedOrder}
+                        confirmedOrder={confirmedOrder} // Pass confirmedOrder instead of isSelected
                         onUpdate={onUpdate}
                     />
                 ))}

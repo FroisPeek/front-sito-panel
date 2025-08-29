@@ -3,13 +3,13 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useQueryClient } from "@tanstack/react-query"
 import { useForm } from "react-hook-form"
 import z from "zod"
-import useMutationUpdateStatusOrder from "../orders/hooks/useMutateUpdateStatusOrder"
+import useMutationUpdateNewClientInOrder from "../orders/hooks/useMutateUpdateNewClientInOrder"
 import useQueryGetOrdersByStatus from "../orders/hooks/useQueryGetOrdersByStatus"
 import { formSchema } from "./readytoship.interface"
 
 export const useReadyToShipModel = () => {
     const { data, isLoading } = useQueryGetOrdersByStatus(Status.ReadyForDelivery)
-    const { mutateAsync: updateStautsOrderAync, isPending: isPendingUpdateStatusOrder } = useMutationUpdateStatusOrder()
+    const { mutateAsync, isPending } = useMutationUpdateNewClientInOrder()
 
     const queryClient = useQueryClient();
 
@@ -21,15 +21,17 @@ export const useReadyToShipModel = () => {
         },
     })
 
-    function onSubmit(values: z.infer<typeof formSchema>) {
-        console.log(values)
-    }
-
-    async function onUpdate(orders: number[], value: number) {
-        await updateStautsOrderAync({ orders: orders, value: value })
-        queryClient.invalidateQueries({
+    async function onSubmit(values: z.infer<typeof formSchema>, order_id: number, totalValue: number) {
+        const dto = {
+            order_id: order_id,
+            client: values.client,
+            sale_price: values.sale_price,
+            total_price: totalValue
+        }
+        mutateAsync({ dto });
+        await queryClient.invalidateQueries({
             queryKey: ["getOrdersByStatus"],
-            exact: true
+            exact: true,
         })
     }
 
@@ -37,6 +39,5 @@ export const useReadyToShipModel = () => {
         data, isLoading,
         form,
         onSubmit,
-        onUpdate, isPendingUpdateStatusOrder
     }
 }

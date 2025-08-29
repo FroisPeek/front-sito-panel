@@ -17,14 +17,14 @@ import type z from "zod"
 interface iProps {
     order: Order
     form: UseFormReturn<z.infer<typeof formSchema>>
-    onSubmit: (values: z.infer<typeof formSchema>) => void
+    onSubmit: (values: z.infer<typeof formSchema>, order_code: number, totalValue: number) => void
 }
 
 export const ReadyToShipCard = ({ order, form, onSubmit }: iProps) => {
     const totalValue = form.watch("sale_price") * order.amount
 
     return (
-        <Card className="w-full shadow-sm border-0 bg-gradient-to-br from-white to-gray-50/50">
+        <Card className="w-full shadow-sm border-0 bg-white">
             <Accordion type="single" collapsible className="w-full">
                 <AccordionItem value={`order-${order.id}`} className="border-none">
                     <AccordionTrigger className="hover:no-underline p-1 sm:p-2">
@@ -58,7 +58,7 @@ export const ReadyToShipCard = ({ order, form, onSubmit }: iProps) => {
                     </AccordionTrigger>
 
                     <AccordionContent>
-                        <CardContent className="pt-0 pb-6">
+                        <CardContent className="pt-0">
                             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                                 <div className="space-y-6">
                                     <div className="flex items-center space-x-2 pb-2 border-b border-gray-100">
@@ -99,7 +99,10 @@ export const ReadyToShipCard = ({ order, form, onSubmit }: iProps) => {
                                     </div>
 
                                     <Form {...form}>
-                                        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                                        <form
+                                            onSubmit={form.handleSubmit((values) => onSubmit(values, order.id, totalValue))}
+                                            className="space-y-6"
+                                        >
                                             <FormField
                                                 control={form.control}
                                                 name="client"

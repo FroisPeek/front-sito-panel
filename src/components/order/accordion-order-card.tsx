@@ -1,4 +1,6 @@
-import { Order } from "@/app/home/orders/order.interface"
+"use client"
+
+import type { Order } from "@/app/home/orders/order.interface"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { Badge } from "@/components/ui/badge"
 import { Card } from "@/components/ui/card"
@@ -6,15 +8,14 @@ import { Status_String } from "@/constants/order-status"
 import { returnDateInStatus } from "@/functions/format-functions"
 import { Check, DollarSign, Hash, Package, Ruler, Tag, User } from "lucide-react"
 import type React from "react"
-import { type Dispatch, type SetStateAction } from "react"
+import type { Dispatch, SetStateAction } from "react"
 import { ButtonReadyToSend } from "./button-ready-to-send"
 
 interface AccordionOrderCardProps {
     order: Order
     index: number
     handleSelectOrder: Dispatch<SetStateAction<number[]>>
-    setIsSelected: Dispatch<SetStateAction<boolean>>
-    isSelected: boolean
+    confirmedOrder: number[] // Added confirmedOrder prop to check individual selection
     onUpdate: (orders: number[], value: number) => void
 }
 
@@ -22,23 +23,22 @@ export const AccordionOrderCard = ({
     order,
     index,
     handleSelectOrder,
-    setIsSelected,
-    isSelected,
-    onUpdate
+    confirmedOrder, // Using confirmedOrder instead of isSelected
+    onUpdate,
 }: AccordionOrderCardProps) => {
     const profit = order.sale_price - order.cost_price
     const profitMargin = ((profit / order.sale_price) * 100).toFixed(1)
     const totalValue = order.sale_price * order.amount
 
+    const isSelected = confirmedOrder.includes(order.id)
+
     const handleCheckboxChange = (e: React.MouseEvent) => {
         e.stopPropagation()
-        const newSelectedState = !isSelected
-        setIsSelected(newSelectedState)
 
-        if (newSelectedState) {
-            handleSelectOrder((prev) => [...(prev ?? []), order.id])
+        if (isSelected) {
+            handleSelectOrder((prev) => prev?.filter((selectedOrder) => selectedOrder !== order.id) ?? [])
         } else {
-            handleSelectOrder((prev) => prev?.filter((selectedOrder) => !(selectedOrder === order.id)) ?? [])
+            handleSelectOrder((prev) => [...(prev ?? []), order.id])
         }
     }
 
@@ -122,32 +122,28 @@ export const AccordionOrderCard = ({
                                         { icon: Ruler, label: "Tamanho", value: order.size },
                                     ].map(({ icon: Icon, label, value }) => (
                                         <div key={label} className="flex items-center gap-3 min-w-0">
-                                            <Icon
-                                                className={`w-4 h-4 flex-shrink-0 ${isSelected ? "text-white" : "text-purple-600"}`}
-                                            />
+                                            <Icon className={`w-4 h-4 flex-shrink-0 ${isSelected ? "text-white" : "text-purple-600"}`} />
                                             <div className="min-w-0 flex-1">
                                                 <p
                                                     className={`text-xs font-medium uppercase tracking-wide mb-1 ${isSelected ? "text-white/70" : "text-gray-500"}`}
                                                 >
                                                     {label}
                                                 </p>
-                                                <p
-                                                    className={`font-semibold truncate ${isSelected ? "text-white" : "text-black"}`}
-                                                >
-                                                    {value}
-                                                </p>
+                                                <p className={`font-semibold truncate ${isSelected ? "text-white" : "text-black"}`}>{value}</p>
                                             </div>
                                         </div>
                                     ))}
 
                                     {order.description && (
-                                        <div className={`flex items-start gap-3 min-w-0 sm:col-span-2 pt-4 border-t ${isSelected ? "border-white/20" : "border-gray-200"}`}
+                                        <div
+                                            className={`flex items-start gap-3 min-w-0 sm:col-span-2 pt-4 border-t ${isSelected ? "border-white/20" : "border-gray-200"}`}
                                         >
                                             <Package
                                                 className={`w-4 h-4 mt-1 flex-shrink-0 ${isSelected ? "text-white" : "text-purple-600"}`}
                                             />
                                             <div className="flex-1 min-w-0">
-                                                <p className={`text-xs font-medium uppercase tracking-wide mb-1 ${isSelected ? "text-white/70" : "text-gray-500"}`}
+                                                <p
+                                                    className={`text-xs font-medium uppercase tracking-wide mb-1 ${isSelected ? "text-white/70" : "text-gray-500"}`}
                                                 >
                                                     Descrição
                                                 </p>
@@ -161,7 +157,6 @@ export const AccordionOrderCard = ({
                                     )}
                                 </div>
                             </div>
-
 
                             <div
                                 className={`rounded-lg p-4 sm:p-5 border ${isSelected ? "bg-white/10 border-white/20" : "bg-gray-50 border-gray-200"
@@ -210,15 +205,8 @@ export const AccordionOrderCard = ({
                                         <span>Margem: {profitMargin}%</span>
                                     </div>
                                 </div>
-
                             </div>
-                            {
-                                order.status === Status_String.PaidPurchase &&
-                                <ButtonReadyToSend
-                                    order={order}
-                                    onUpdate={onUpdate}
-                                />
-                            }
+                            {order.status === Status_String.PaidPurchase && <ButtonReadyToSend order={order} onUpdate={onUpdate} />}
                         </div>
                     </AccordionContent>
                 </AccordionItem>

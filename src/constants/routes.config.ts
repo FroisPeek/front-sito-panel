@@ -6,6 +6,7 @@ const routers = [
     { path: "/ready-to-ship", isPublic: false, whenAuthenticated: "next" },
     { path: "/accounts", isPublic: false, whenAuthenticated: "next" },
     { path: "/dashboards", isPublic: false, whenAuthenticated: "next" },
+    { path: "/expenses", isPublic: false, whenAuthenticated: "next" },
     { path: "/settings", isPublic: false, whenAuthenticated: "next" },
 ] as const;
 
