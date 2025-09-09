@@ -80,7 +80,7 @@ export const PurchaseCard = ({ order, selectedOrders, handleCardClick, canSelect
                     <User className={`w-4 h-4 ${getIconColor(isPaidPurchase, isSelected)}`} />
                     <span className={`text-sm ${getLabelColor(isPaidPurchase, isSelected)}`}>Cliente:</span>
                     <span className={`font-medium ${getTextColor(isPaidPurchase, isSelected)}`}>
-                        {order.client_infos.client_name}
+                        {order.client_infos?.client_name}
                     </span>
                 </div>
 
