@@ -5,10 +5,12 @@ import useMutationUpdateStatusOrder from "../orders/hooks/useMutateUpdateStatusO
 import useQueryGetOrdersByStatus from "../orders/hooks/useQueryGetOrdersByStatus"
 import { Order } from "../orders/order.interface"
 import useQueryGetClients from "./hooks/useQueryGetClients"
+import useQueryGetPendingPaid from "../orders/hooks/useMutateGetOrdersPaidPending"
 
 export const useAccountsModel = () => {
     const { data, isLoading } = useQueryGetOrdersByStatus(Status.MoreThenOne)
     const { data: clients, isLoading: isLoadingClients } = useQueryGetClients()
+    const { data: ordersPending, isLoading: isLoadingPending } = useQueryGetPendingPaid()
     const { mutateAsync } = useMutationUpdateStatusOrder();
 
     const [selectedOrders, setSelectedOrders] = useState<number[]>([])
@@ -69,6 +71,7 @@ export const useAccountsModel = () => {
         handleCardClick,
         canSelectCard,
         firstSelectedOrder,
-        clients, isLoadingClients
+        clients, isLoadingClients,
+        ordersPending, isLoadingPending
     }
 }

@@ -12,28 +12,29 @@ export const orderSchema = z.object({
     total_price: z.number().min(0.1),
 })
 
-export type Order = {
-    id: number;
-    code: number;
-    description?: string;
-    size: string;
-    amount: number;
-    cost_price: number;
-    sale_price: number;
-    total_price: number;
-    status: string;
-    date_creation_order: string;
-    tenant_id: number;
-    brand: string;
-    date_order?: string | undefined;
-    date_purchase_order?: string | undefined;
-    status_conference: string | undefined;
-    date_conference: string | undefined;
-    client_infos: {
-        client_id: number;
-        client_name: string;
-    }
-};
+export interface Order {
+  id: number
+  code: string
+  description: string
+  size: string
+  amount: number
+  cost_price: number
+  sale_price: number
+  total_price: number
+  status: string
+  date_creation_order: string
+  tenant_id: number
+  brand: string
+  date_order: string
+  date_purchase_order: string
+  client_infos: {
+    client_id: number
+    client_name: string
+  }
+  status_conference: string
+  date_conference: string | null
+  paid_price: number 
+}
 
 export type CreateOrderSchema = {
     client: string;

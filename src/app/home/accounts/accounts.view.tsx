@@ -1,5 +1,5 @@
 import { AccountsList } from "@/components/accounts/accounts-list"
-import { AccoutnsReceive } from "@/components/accounts/accounts-receive"
+import { AccountsReceive } from "@/components/accounts/accounts-receive" 
 import { IsLoadingCard } from "@/components/global/isloading-card"
 import { NotFoundOrder } from "@/components/global/not-found-order"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -10,7 +10,7 @@ import { useAccountsModel } from "./accounts.model"
 type AccountsViewProps = ReturnType<typeof useAccountsModel>
 
 export const AccountsView = (props: AccountsViewProps) => {
-    const { data, isLoading, selectedOrders, setSelectedOrders, totalValueToPay, onUpdate, handleCardClick, canSelectCard, firstSelectedOrder, clients, isLoadingClients } = props
+    const { data, isLoading, selectedOrders, setSelectedOrders, totalValueToPay, onUpdate, handleCardClick, canSelectCard, firstSelectedOrder, isLoadingPending, ordersPending } = props
 
     if (isLoading) return <IsLoadingCard />
 
@@ -46,14 +46,12 @@ export const AccountsView = (props: AccountsViewProps) => {
                 </TabsContent>
 
                 <TabsContent value="accounts-receive" className="mt-0 p-4 sm:p-6">
-                    <AccoutnsReceive
-                        clients={clients}
-                        isLoadingClients={isLoadingClients}
+                    <AccountsReceive
+                        isLoadingPending={isLoadingPending}
+                        orders={ordersPending}
                     />
                 </TabsContent>
             </Tabs>
-
-
         </div>
     )
 }
