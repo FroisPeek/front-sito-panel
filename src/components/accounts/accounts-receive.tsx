@@ -8,8 +8,8 @@ import { Input } from "@/components/ui/input"
 import { Separator } from "@/components/ui/separator"
 import { formatCurrency, formatDate } from "@/functions/format-functions"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { CalendarDays, CreditCard, DollarSign, Eye, EyeOff, Package, User } from "lucide-react"
-import { useState } from "react"
+import { CalendarDays, CreditCard, DollarSign, Eye, EyeOff, Package, Search, User, X } from "lucide-react"
+import { useMemo, useState } from "react"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import * as z from "zod"
@@ -18,7 +18,7 @@ import { IsLoadingCard } from "../global/isloading-card"
 interface iProps {
   isLoadingPending: boolean
   orders: Order[]
-  update: (dto: { order_id: number; paid_price: number; }[]) => Promise<void>
+  update: (dto: { order_id: number; paid_price: number }[]) => Promise<void>
   isPending: boolean
 }
 
@@ -40,6 +40,7 @@ export const AccountsReceive = ({ isLoadingPending, orders, isPending, update }:
   const [selectedOrders, setSelectedOrders] = useState<Set<number>>(new Set())
   const [visibleFields, setVisibleFields] = useState<Record<number, Set<string>>>({})
   const [showAllSensitiveInfo, setShowAllSensitiveInfo] = useState(false)
+  const [searchFilter, setSearchFilter] = useState("")
 
   const form = useForm<PaymentFormData>({
     resolver: zodResolver(paymentSchema),
@@ -47,6 +48,40 @@ export const AccountsReceive = ({ isLoadingPending, orders, isPending, update }:
       payments: {},
     },
   })
+
+  const filteredOrders = useMemo(() => {
+    if (!searchFilter.trim()) return orders
+
+    const searchTerm = searchFilter.toLowerCase().trim()
+
+    return orders.filter((order) => {
+      const searchableFields = [
+        order.id?.toString(),
+        order.code,
+        order.description,
+        order.size,
+        order.amount?.toString(),
+        order.cost_price?.toString(),
+        order.sale_price?.toString(),
+        order.total_price?.toString(),
+        order.status,
+        order.date_creation_order,
+        order.tenant_id?.toString(),
+        order.brand,
+        order.date_order,
+        order.date_purchase_order,
+        order.client_infos?.client_id?.toString(),
+        order.client_infos?.client_name,
+        order.status_conference,
+        order.date_conference,
+        order.paid_price?.toString(),
+        formatCurrency(order.total_price - order.paid_price), // pending amount
+        formatDate(order.date_creation_order),
+      ]
+
+      return searchableFields.some((field) => field?.toLowerCase().includes(searchTerm))
+    })
+  }, [orders, searchFilter])
 
   const calculatePendingAmount = (order: Order) => {
     return order.total_price - order.paid_price
@@ -105,30 +140,72 @@ export const AccountsReceive = ({ isLoadingPending, orders, isPending, update }:
     }
   }
 
+  const clearFilter = () => {
+    setSearchFilter("")
+  }
 
   if (isLoadingPending) <IsLoadingCard />
 
   return (
     <div className="space-y-6">
-      {orders.length === 0 ? (
+      <div className="flex flex-col sm:flex-row gap-4">
+        <div className="relative flex-1">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+          <Input
+            placeholder="Filtrar por código, cliente, descrição, valores..."
+            value={searchFilter}
+            onChange={(e) => setSearchFilter(e.target.value)}
+            className="pl-10 pr-10"
+          />
+          {searchFilter && (
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={clearFilter}
+              className="absolute right-1 top-1/2 transform -translate-y-1/2 h-8 w-8 p-0"
+            >
+              <X className="h-4 w-4" />
+            </Button>
+          )}
+        </div>
+        <Button variant="default" onClick={() => setShowAllSensitiveInfo((prev) => !prev)}>
+          {showAllSensitiveInfo ? "Ocultar tudo" : "Mostrar tudo"}
+        </Button>
+      </div>
+
+      {searchFilter && (
+        <div className="text-sm text-muted-foreground">
+          {filteredOrders.length} de {orders.length} contas encontradas
+        </div>
+      )}
+
+      {filteredOrders.length === 0 ? (
         <Card>
           <CardContent className="flex flex-col items-center justify-center py-12">
             <CreditCard className="h-12 w-12 text-muted-foreground mb-4" />
-            <h3 className="text-lg font-semibold mb-2">Nenhuma conta pendente</h3>
-            <p className="text-muted-foreground text-center">Todos os pedidos foram pagos integralmente.</p>
+            {searchFilter ? (
+              <>
+                <h3 className="text-lg font-semibold mb-2">Nenhuma conta encontrada</h3>
+                <p className="text-muted-foreground text-center mb-4">
+                  Não encontramos contas que correspondam ao filtro "{searchFilter}".
+                </p>
+                <Button variant="outline" onClick={clearFilter}>
+                  Limpar filtro
+                </Button>
+              </>
+            ) : (
+              <>
+                <h3 className="text-lg font-semibold mb-2">Nenhuma conta pendente</h3>
+                <p className="text-muted-foreground text-center">Todos os pedidos foram pagos integralmente.</p>
+              </>
+            )}
           </CardContent>
         </Card>
       ) : (
-
         <Form {...form}>
-          <div className="flex w-full">
-            <Button variant="default" onClick={() => setShowAllSensitiveInfo((prev) => !prev)} className="w-full">
-              {showAllSensitiveInfo ? "Ocultar tudo" : "Mostrar tudo"}
-            </Button>
-          </div>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <div className="grid gap-4">
-              {orders.map((order) => {
+              {filteredOrders.map((order) => {
                 const pendingAmount = calculatePendingAmount(order)
                 const isSelected = selectedOrders.has(order.id)
 

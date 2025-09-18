@@ -21,8 +21,5 @@ export default function useMutateUpdatePaidPrice() {
     return useMutation({
         mutationFn: (dtos: UpdatePaidPriceDto[]) => updatePaidPrice(dtos),
         mutationKey: ["updatePaidPrice"],
-        onError: (error: any) => {
-            toast.error(error.message || "Erro inesperado");
-        },
     });
 }
