@@ -1,17 +1,19 @@
 import { Status } from "@/constants/order-status"
 import { useQueryClient } from "@tanstack/react-query"
 import { useState } from "react"
+import useQueryGetPendingPaid from "../orders/hooks/useMutateGetOrdersPaidPending"
 import useMutationUpdateStatusOrder from "../orders/hooks/useMutateUpdateStatusOrder"
 import useQueryGetOrdersByStatus from "../orders/hooks/useQueryGetOrdersByStatus"
 import { Order } from "../orders/order.interface"
+import useMutateUpdatePaidPrice from "./hooks/useMutateUpdatePaidPrice"
 import useQueryGetClients from "./hooks/useQueryGetClients"
-import useQueryGetPendingPaid from "../orders/hooks/useMutateGetOrdersPaidPending"
 
 export const useAccountsModel = () => {
     const { data, isLoading } = useQueryGetOrdersByStatus(Status.MoreThenOne)
     const { data: clients, isLoading: isLoadingClients } = useQueryGetClients()
     const { data: ordersPending, isLoading: isLoadingPending } = useQueryGetPendingPaid()
     const { mutateAsync } = useMutationUpdateStatusOrder();
+    const { mutateAsync: update, isPending } = useMutateUpdatePaidPrice();
 
     const [selectedOrders, setSelectedOrders] = useState<number[]>([])
     const [firstSelectedOrder, setFirstSelectedOrder] = useState<Order | null>(null)
@@ -29,6 +31,14 @@ export const useAccountsModel = () => {
         setSelectedOrders([])
         queryClient.invalidateQueries({
             queryKey: ["getOrdersByStatus"],
+            exact: true
+        })
+    }
+
+    async function updatePaidPrice(dto: { order_id: number, paid_price: number }[]) {
+        await update(dto)
+        queryClient.invalidateQueries({
+            queryKey: ["getAllOrders"],
             exact: true
         })
     }
@@ -72,6 +82,7 @@ export const useAccountsModel = () => {
         canSelectCard,
         firstSelectedOrder,
         clients, isLoadingClients,
-        ordersPending, isLoadingPending
+        ordersPending, isLoadingPending,
+        isPending, updatePaidPrice
     }
 }

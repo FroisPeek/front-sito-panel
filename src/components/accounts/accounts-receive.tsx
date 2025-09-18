@@ -1,24 +1,25 @@
 "use client"
 
+import type { Order } from "@/app/home/orders/order.interface"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
+import { Separator } from "@/components/ui/separator"
+import { formatCurrency, formatDate } from "@/functions/format-functions"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { CalendarDays, CreditCard, DollarSign, Eye, EyeOff, Package, User } from "lucide-react"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import * as z from "zod"
-import type { Clients } from "@/app/home/accounts/accounts.interface"
-import type { Order } from "@/app/home/orders/order.interface"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
-import { Separator } from "@/components/ui/separator"
-import { CalendarDays, DollarSign, User, Package, CreditCard, Eye, EyeOff } from "lucide-react"
-import { formatCurrency, formatDate } from "@/functions/format-functions"
 import { toast } from "sonner"
+import * as z from "zod"
 import { IsLoadingCard } from "../global/isloading-card"
 
 interface iProps {
   isLoadingPending: boolean
   orders: Order[]
+  update: (dto: { order_id: number; paid_price: number; }[]) => Promise<void>
+  isPending: boolean
 }
 
 const paymentSchema = z.object({
@@ -35,7 +36,7 @@ const paymentSchema = z.object({
 
 type PaymentFormData = z.infer<typeof paymentSchema>
 
-export const AccountsReceive = ({ isLoadingPending, orders }: iProps) => {
+export const AccountsReceive = ({ isLoadingPending, orders, isPending, update }: iProps) => {
   const [selectedOrders, setSelectedOrders] = useState<Set<number>>(new Set())
   const [visibleFields, setVisibleFields] = useState<Record<number, Set<string>>>({})
   const [showAllSensitiveInfo, setShowAllSensitiveInfo] = useState(false)
@@ -56,7 +57,7 @@ export const AccountsReceive = ({ isLoadingPending, orders }: iProps) => {
     if (newSelected.has(orderId)) {
       newSelected.delete(orderId)
     } else {
-      newSelected.add(orderId)  
+      newSelected.add(orderId)
     }
     setSelectedOrders(newSelected)
   }
@@ -82,23 +83,26 @@ export const AccountsReceive = ({ isLoadingPending, orders }: iProps) => {
     return showAllSensitiveInfo || isFieldVisible(orderId, fieldName)
   }
 
-  const onSubmit = (data: PaymentFormData) => {
+  const onSubmit = async (data: PaymentFormData) => {
     const payments = Object.entries(data.payments).map(([orderId, payment]) => ({
-      orderId: Number(orderId),
-      amount: Number(payment.amount),
-      order: orders.find((o) => o.id === Number(orderId)),
+      order_id: Number(orderId),
+      paid_price: Number(payment.amount),
     }))
 
-    console.log("Processando pagamentos:", payments)
+    try {
+      await update(payments)
 
-    toast("Pagamentos processados", {
-      description: `${payments.length} pagamento(s) foram registrados com sucesso.`,
-    })
+      toast("Pagamentos processados", {
+        description: `${payments.length} pagamento(s) foram registrados com sucesso.`,
+      })
 
-    form.reset()
-    setSelectedOrders(new Set())
-    setShowAllSensitiveInfo(false) 
-    setVisibleFields({}) 
+      form.reset()
+      setSelectedOrders(new Set())
+      setShowAllSensitiveInfo(false)
+      setVisibleFields({})
+    } catch (err) {
+      toast.error("Erro ao processar pagamentos")
+    }
   }
 
 
@@ -115,13 +119,13 @@ export const AccountsReceive = ({ isLoadingPending, orders }: iProps) => {
           </CardContent>
         </Card>
       ) : (
-        
+
         <Form {...form}>
-            <div className="flex w-full">
-              <Button variant="default" onClick={() => setShowAllSensitiveInfo((prev) => !prev)} className="w-full">
-                {showAllSensitiveInfo ? "Ocultar tudo" : "Mostrar tudo"}
-              </Button>
-            </div>
+          <div className="flex w-full">
+            <Button variant="default" onClick={() => setShowAllSensitiveInfo((prev) => !prev)} className="w-full">
+              {showAllSensitiveInfo ? "Ocultar tudo" : "Mostrar tudo"}
+            </Button>
+          </div>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <div className="grid gap-4">
               {orders.map((order) => {
@@ -131,9 +135,8 @@ export const AccountsReceive = ({ isLoadingPending, orders }: iProps) => {
                 return (
                   <Card
                     key={order.id}
-                    className={`transition-all cursor-pointer ${
-                      isSelected ? "ring-2 ring-primary border-primary" : "hover:shadow-md"
-                    }`}
+                    className={`transition-all cursor-pointer ${isSelected ? "ring-2 ring-primary border-primary" : "hover:shadow-md"
+                      }`}
                     onClick={() => toggleOrderSelection(order.id)}
                   >
                     <CardHeader className="pb-3">
@@ -331,8 +334,8 @@ export const AccountsReceive = ({ isLoadingPending, orders }: iProps) => {
                     onClick={() => {
                       setSelectedOrders(new Set())
                       form.reset()
-                      setShowAllSensitiveInfo(false) 
-                      setVisibleFields({}) 
+                      setShowAllSensitiveInfo(false)
+                      setVisibleFields({})
                     }}
                     className="flex-1 sm:flex-none"
                   >
