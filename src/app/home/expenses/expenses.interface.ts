@@ -13,4 +13,7 @@ export interface ExpenseFormData {
     description: string
     price: number
     expense_date: string
+    performed_at: string
+    processed_at: string
+    payment_date: string
 }

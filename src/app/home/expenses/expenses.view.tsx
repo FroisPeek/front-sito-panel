@@ -14,7 +14,8 @@ import { useExpensesModel } from "./expenses.model"
 type ExpensesViewProps = ReturnType<typeof useExpensesModel>
 
 export const ExpensesView = (props: ExpensesViewProps) => {
-    const { data, isLoading, editingExpense, handleAddExpense, handleEditExpense, isModalOpen, searchTerm, setEditingExpense, setIsModalOpen, setSearchTerm, setShowSensitiveData, showSensitiveData, totalExpenses, filteredData } = props
+    const { data, isLoading, editingExpense, handleAddExpense, handleEditExpense, isModalOpen, searchTerm, setEditingExpense, setIsModalOpen,
+        setSearchTerm, setShowSensitiveData, showSensitiveData, totalExpenses, filteredData, formData, setFormData, handleSaveExpense, handleOpenEditExpenses } = props
 
     if (isLoading) return <IsLoadingCard />
 
@@ -111,17 +112,21 @@ export const ExpensesView = (props: ExpensesViewProps) => {
                     <ExpenseCard
                         key={expense.id}
                         expense={expense}
-                        onEdit={handleEditExpense}
+                        onEdit={handleOpenEditExpenses}
                         showSensitiveData={showSensitiveData}
                     />
                 ))
             )}
 
             <ExpenseFormModal
+                handleSaveExpense={handleSaveExpense}
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
                 onSubmit={handleAddExpense}
                 expense={editingExpense}
+                formData={formData}
+                setFormData={setFormData}
+                handleUpdateExpense={handleEditExpense}
             />
         </div>
     )
